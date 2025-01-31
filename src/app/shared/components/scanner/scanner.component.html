@@ -1,22 +1,37 @@
-<div class="container">
-  <div class="row card">
-    <div class="col-4">
-      <button
-        class="btn"
-        [ngClass]="scanStatus ? 'btn-success' : 'btn-danger'"
-        (click)="toggleScanStatus()"
-      >
-        Cámara
-      </button>
-    </div>
-    <div class="card card-img-top col">
-      <zxing-scanner
-        class="img-fluid"
-        [enable]="scanStatus"
-        [formats]="allowedFormats"
-        (scanComplete)="scanProcess($event)"
-      ></zxing-scanner>
-      {{ dataResult | json }}
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+          <zxing-scanner
+            class="card-img-top mx-1 my-1 box-shadow"
+            [enable]="scanStatus"
+            [formats]="allowedFormats"
+            (scanComplete)="scanProcess($event)"
+            style="height: 225px; width: 100%; display: block"
+          ></zxing-scanner>
+
+          <div class="card-body">
+            <p class="card-text" *ngFor="let item of historyResult">
+              {{ item.getText() }} FORMAT:{{ item.getBarcodeFormat() }}
+            </p>
+            <div class="d-flex justify-content-center align-items-center">
+              <div>
+                <button
+                  type="button"
+                  class="btn"
+                  (click)="toggleScanStatus()"
+                  [ngClass]="
+                    scanStatus ? 'btn-outline-success' : 'btn-outline-danger'
+                  "
+                >
+                  <i class="bi bi-qr-code-scan"></i> Escanear
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

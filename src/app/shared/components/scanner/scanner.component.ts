@@ -13,7 +13,7 @@ export class SharedScannerComponent implements OnInit {
 
   scanStatus: boolean = false;
 
-  historyResult: Result[] = [];
+  public historyResult: Result[] = [];
 
   barcodeEnumDescription: string[] = [];
 
@@ -24,14 +24,6 @@ export class SharedScannerComponent implements OnInit {
 
   ngOnInit() {
     this.historyResult = this.storageService.getHistoryResultArray();
-
-    // // const keys = Object.keys(BarcodeFormat);
-
-    // // keys.forEach((key, index) => {
-    // //   console.log(`${key} has index ${index}`);
-
-    // });
-
     console.log('ObjectKeys');
   }
 

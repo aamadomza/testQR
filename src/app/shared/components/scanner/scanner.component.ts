@@ -25,6 +25,7 @@ export class SharedScannerComponent implements OnInit {
   ngOnInit() {
     this.historyResult = this.storageService.getHistoryResultArray();
     console.log('ObjectKeys');
+    this.checkCameraPermissions();
   }
 
   public allowedFormats = [
@@ -65,5 +66,16 @@ export class SharedScannerComponent implements OnInit {
 
   getBarcodeDescription(code: BarcodeFormat): string {
     return typeof code;
+  }
+
+  async checkCameraPermissions() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach((track) => track.stop()); // Stop the stream immediately
+      this.scanStatus = true;
+    } catch (error) {
+      console.error('Camera access denied or not available:', error);
+      this.scanStatus = false;
+    }
   }
 }

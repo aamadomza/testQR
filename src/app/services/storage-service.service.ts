@@ -8,13 +8,24 @@ export class StorageService {
   constructor() {}
 
   private historyResultArray: Result[] = [];
+  private historyLogArray: String[] = [];
 
-  appendHistoryItem(item: Result) {
+  appendHistoryItem(item: Result): void {
     if (!item) return;
     this.historyResultArray.unshift(item);
   }
 
-  getHistoryResultArray() {
+  getHistoryResultArray(): Result[] {
     return this.historyResultArray;
+  }
+
+  appendHistoryLog(text: String): void {
+    if (!text) return;
+
+    this.historyLogArray.unshift(text);
+  }
+
+  getHistoryLogArray(): String[] {
+    return this.historyLogArray;
   }
 }

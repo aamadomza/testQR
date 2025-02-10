@@ -25,7 +25,6 @@ export class SharedScannerComponent implements OnInit {
   ngOnInit() {
     this.historyResult = this.storageService.getHistoryResultArray();
     console.log('ObjectKeys');
-    this.checkCameraPermissions();
   }
 
   public allowedFormats = [
@@ -57,6 +56,8 @@ export class SharedScannerComponent implements OnInit {
 
   toggleScanStatus(): void {
     this.scanStatus = !this.scanStatus;
+    this.checkCameraPermissions();
+    this.storageService.appendHistoryLog(`CameraStatus: ${this.scanStatus}`);
     //    this.backendService.getData();
   }
 
@@ -68,12 +69,24 @@ export class SharedScannerComponent implements OnInit {
     return typeof code;
   }
 
+  getProtocolType() {
+    if (window.location.protocol !== 'https:') {
+      console.warn(
+        'Camera access requires HTTPS. Please serve the app over HTTPS.'
+      );
+      this.storageService.appendHistoryLog(
+        `ProtocolTypeCameraStatus: ${window.location.protocol}`
+      );
+    }
+  }
+
   async checkCameraPermissions() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       stream.getTracks().forEach((track) => track.stop()); // Stop the stream immediately
       this.scanStatus = true;
     } catch (error) {
+      this.storageService.appendHistoryLog(`Error: ${error}`);
       console.error('Camera access denied or not available:', error);
       this.scanStatus = false;
     }
